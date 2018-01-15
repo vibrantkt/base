@@ -13,10 +13,18 @@ open class HTTPJsonRPCPeer(port: Int, private val rpc: JSONRPC): HTTPPeer(port, 
     protected var requestID: Long = 0
 
 
+
+    @Suppress("MemberVisibilityCanBePrivate")
+    val peers = arrayListOf<RemoteNode>()
+
+
     override fun handleRequest(request: Request): ByteArray {
         val remotePort = request.headers["peer-port"]?.toInt()
         if(remotePort != null){
             val remoteNode = RemoteNode(request.request.remoteAddr, remotePort)
+
+            this.addUniqueRemoteNode(remoteNode)
+
             val jsonRPCRequest = JSONRPCSerializer.deserialize(request.body) as JSONRPCRequest
             val response = rpc.invoke(jsonRPCRequest, remoteNode)
             return JSONRPCSerializer.serialize(response)
@@ -34,6 +42,14 @@ open class HTTPJsonRPCPeer(port: Int, private val rpc: JSONRPC): HTTPPeer(port, 
 
     fun createRequest(method: String, params: Array<Any>): JSONRPCRequest {
         return JSONRPCRequest(method, params, this.requestID++)
+    }
+
+
+
+    open fun addUniqueRemoteNode(remoteNode: RemoteNode) {
+        if (this.peers.find { it.address == remoteNode.address && it.port == remoteNode.port } == null) {
+            this.peers.add(remoteNode)
+        }
     }
 
 }
