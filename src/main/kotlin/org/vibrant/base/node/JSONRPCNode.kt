@@ -1,5 +1,6 @@
 package org.vibrant.base.node
 
+import mu.KotlinLogging
 import org.vibrant.base.http.HTTPJsonRPCPeer
 import org.vibrant.base.rpc.json.JSONRPCEntity
 import org.vibrant.base.rpc.json.JSONRPCRequest
@@ -9,6 +10,13 @@ import org.vibrant.example.chat.base.jsonrpc.JSONRPCResponse
 
 @Suppress("AddVarianceModifier")
 abstract class JSONRPCNode<T: HTTPJsonRPCPeer>: AbstractNode<JSONRPCEntity>(){
+
+
+
+
+
+    @Suppress("unused")
+    protected val logger = KotlinLogging.logger {  }
 
     @Suppress("MemberVisibilityCanBePrivate")
     protected var requestID: Long = 0
