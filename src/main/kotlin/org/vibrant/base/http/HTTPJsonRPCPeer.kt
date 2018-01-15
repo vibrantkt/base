@@ -9,8 +9,6 @@ import org.vibrant.example.chat.base.jsonrpc.JSONRPCResponse
 
 open class HTTPJsonRPCPeer(port: Int, private val rpc: JSONRPC): HTTPPeer(port, object: HTTPPeerConfig(endpoint = "/rpc"){}) {
 
-    @Suppress("MemberVisibilityCanBePrivate")
-    protected var requestID: Long = 0
 
 
 
@@ -37,11 +35,6 @@ open class HTTPJsonRPCPeer(port: Int, private val rpc: JSONRPC): HTTPPeer(port, 
     fun request(remoteNode: RemoteNode, jsonrpcRequest: JSONRPCRequest): JSONRPCResponse<*> {
         val response = this.request(JSONRPCSerializer.serialize(jsonrpcRequest), remoteNode)
         return JSONRPCSerializer.deserialize(response) as JSONRPCResponse<*>
-    }
-
-
-    protected fun createRequest(method: String, params: Array<Any>): JSONRPCRequest {
-        return JSONRPCRequest(method, params, this.requestID++)
     }
 
 
