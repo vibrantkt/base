@@ -9,7 +9,7 @@ import java.util.HashMap
 
 object JSONRPCSerializer: ModelSerializer<JSONRPCEntity>() {
     override fun serialize(model: JSONRPCEntity): ByteArray {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return jacksonObjectMapper().writeValueAsBytes(model)
     }
 
     override fun deserialize(serialized: ByteArray): JSONRPCEntity {
