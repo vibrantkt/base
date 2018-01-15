@@ -1,20 +1,16 @@
 package org.vibrant.base.http
 
+import org.vibrant.base.rpc.WrongProtocolException
+import org.vibrant.base.rpc.json.JSONRPC
 import org.vibrant.base.rpc.json.JSONRPCRequest
 import org.vibrant.base.rpc.json.JSONRPCSerializer
 import org.vibrant.core.node.RemoteNode
-import org.vibrant.base.rpc.WrongProtocolException
-import org.vibrant.base.rpc.json.JSONRPC
 import org.vibrant.example.chat.base.jsonrpc.JSONRPCResponse
 
 open class HTTPJsonRPCPeer(port: Int, private val rpc: JSONRPC): HTTPPeer(port, object: HTTPPeerConfig(endpoint = "/rpc"){}) {
 
+    @Suppress("MemberVisibilityCanBePrivate")
     protected var requestID: Long = 0
-
-    override fun connect(remoteNode: RemoteNode) {
-        val request = JSONRPCRequest("echo", arrayOf("peer"), this.requestID++)
-
-    }
 
 
     override fun handleRequest(request: Request): ByteArray {
@@ -27,6 +23,17 @@ open class HTTPJsonRPCPeer(port: Int, private val rpc: JSONRPC): HTTPPeer(port, 
         }else {
             throw WrongProtocolException("Expected 'peer-port' header")
         }
+    }
+
+
+    fun request(remoteNode: RemoteNode, jsonrpcRequest: JSONRPCRequest): JSONRPCResponse<*> {
+        val response = this.request(JSONRPCSerializer.serialize(jsonrpcRequest), remoteNode)
+        return JSONRPCSerializer.deserialize(response) as JSONRPCResponse<*>
+    }
+
+
+    fun createRequest(method: String, params: Array<Any>): JSONRPCRequest {
+        return JSONRPCRequest(method, params, this.requestID++)
     }
 
 }

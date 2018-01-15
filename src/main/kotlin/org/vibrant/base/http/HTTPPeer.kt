@@ -10,6 +10,7 @@ import java.io.ByteArrayInputStream
 
 abstract class HTTPPeer(val port: Int, val config: HTTPPeerConfig): AbstractPeer(){
 
+    @Suppress("unused")
     protected val logger = KotlinLogging.logger{}
 
     private val server = createServer()
@@ -44,7 +45,7 @@ abstract class HTTPPeer(val port: Int, val config: HTTPPeerConfig): AbstractPeer
 
 
     override fun request(byteArray: ByteArray, remoteNode: RemoteNode): ByteArray {
-        val(_, _, result) =  "http://${remoteNode.address}:${remoteNode.port}/rpc"
+        val(_, _, result) =  "http://${remoteNode.address}:${remoteNode.port}/${config.endpoint}"
                 .httpPost()
                 .header("peer-port" to port)
                 .body(String(byteArray))
@@ -52,7 +53,5 @@ abstract class HTTPPeer(val port: Int, val config: HTTPPeerConfig): AbstractPeer
 
         return result.get()
     }
-
-    abstract fun connect(remoteNode: RemoteNode)
 
 }
