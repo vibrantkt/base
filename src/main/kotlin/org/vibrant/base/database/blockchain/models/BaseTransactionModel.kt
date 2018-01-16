@@ -12,9 +12,7 @@ import com.fasterxml.jackson.annotation.JsonTypeName
  * @property payload any content
  * @property signature signature
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY)
-@JsonTypeName("transaction")
-data class BaseTransactionModel(
+abstract class BaseTransactionModel(
         val from: String,
         val to: String,
         val payload: TransactionPayload,
