@@ -1,10 +1,13 @@
 package org.vibrant.base.database.blockchain
 
-import org.vibrant.core.ModelSerializer
-import org.vibrant.core.models.BlockModel
-import org.vibrant.example.chat.base.models.BlockChainModel
 
-abstract class InMemoryBlockChain<B: BlockModel, T: BlockChainModel>: BlockChain<B, T>() {
+import org.vibrant.base.database.blockchain.models.BlockChainModel
+import org.vibrant.base.database.blockchain.models.BlockModel
+
+/**
+ * @property blocks Ordered list of blocks from genesis to the last
+ */
+abstract class InMemoryBlockChain<B: BlockModel, out T: BlockChainModel>: BlockChain<B, T>() {
 
     protected val blocks = arrayListOf(this.createGenesisBlock())
 

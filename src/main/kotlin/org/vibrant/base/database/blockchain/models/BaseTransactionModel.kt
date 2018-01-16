@@ -4,8 +4,6 @@ package org.vibrant.base.database.blockchain.models
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonTypeName
-import org.vibrant.base.database.blockchain.TransactionPayload
-import org.vibrant.core.models.TransactionModel
 
 /***
  * Model of transaction which is serializable

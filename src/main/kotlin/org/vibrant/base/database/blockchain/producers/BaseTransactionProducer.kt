@@ -1,6 +1,6 @@
 package org.vibrant.base.database.blockchain.producers
 
-import org.vibrant.base.database.blockchain.TransactionPayload
+import org.vibrant.base.database.blockchain.models.TransactionPayload
 import org.vibrant.core.ModelSerializer
 import org.vibrant.core.algorithm.SignatureProducer
 import org.vibrant.base.database.blockchain.models.BaseTransactionModel

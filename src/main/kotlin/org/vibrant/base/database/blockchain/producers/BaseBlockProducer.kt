@@ -1,6 +1,5 @@
 package org.vibrant.base.database.blockchain.producers
 
-import org.vibrant.base.database.blockchain.BaseBlockModel
 import org.vibrant.core.ModelSerializer
 import org.vibrant.base.database.blockchain.models.BaseTransactionModel
 import org.vibrant.core.producers.BlockProducer

@@ -1,14 +1,11 @@
 package org.vibrant.base.database.blockchain
 
-import org.vibrant.core.models.BlockModel
-import org.vibrant.example.chat.base.models.BlockChainModel
-import org.vibrant.core.producers.BlockChainProducer
+import org.vibrant.base.database.blockchain.models.BlockChainModel
+import org.vibrant.base.database.blockchain.models.BlockModel
+import org.vibrant.core.ModelProducer
 
 
-/**
- * @property blocks Ordered list of blocks from genesis to the last
- */
-abstract class BlockChain<B: BlockModel, T: BlockChainModel> : BlockChainProducer<T>(){
+abstract class BlockChain<B: BlockModel, out T: BlockChainModel> : ModelProducer<T>(){
 
     private val listeners = arrayListOf<NewBlockListener<B>>()
 
@@ -37,6 +34,9 @@ abstract class BlockChain<B: BlockModel, T: BlockChainModel> : BlockChainProduce
      */
     abstract fun addBlock(block: B): B
 
+    /**
+     * @return true if chain is good
+     */
     abstract fun checkIntegrity(): Boolean
 
     abstract fun createGenesisBlock(): B
