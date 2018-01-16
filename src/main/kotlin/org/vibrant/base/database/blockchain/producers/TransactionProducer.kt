@@ -1,6 +1,6 @@
 package org.vibrant.base.database.blockchain.producers
 
-import org.vibrant.base.database.blockchain.models.BlockModel
+import org.vibrant.base.database.blockchain.models.TransactionModel
 import org.vibrant.core.ModelProducer
 
-abstract class TransactionProducer<out T: BlockModel>: ModelProducer<T>()
+abstract class TransactionProducer<out T: TransactionModel>: ModelProducer<T>()
