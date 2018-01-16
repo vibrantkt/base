@@ -2,13 +2,15 @@ package org.vibrant.base.rpc.json
 
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import org.vibrant.core.ConcreteModelSerializer
 import org.vibrant.core.ModelSerializer
 import org.vibrant.core.models.Model
 import org.vibrant.example.chat.base.jsonrpc.JSONRPCResponse
 import java.util.HashMap
 
-object JSONRPCSerializer: ModelSerializer<JSONRPCEntity>() {
-    override fun serialize(model: JSONRPCEntity): ByteArray {
+object JSONRPCSerializer: ConcreteModelSerializer<JSONRPCEntity>() {
+
+    override fun serialize(model: Model): ByteArray {
         return jacksonObjectMapper().writeValueAsBytes(model)
     }
 

@@ -4,6 +4,7 @@ import org.vibrant.base.rpc.JSONRPCMethod
 import org.vibrant.core.node.RemoteNode
 import org.vibrant.example.chat.base.jsonrpc.JSONRPCResponse
 
+@Suppress("UNUSED_PARAMETER")
 class JSONRPCDefaultProtocol: JSONRPC() {
 
 
