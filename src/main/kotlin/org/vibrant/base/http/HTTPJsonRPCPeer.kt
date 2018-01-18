@@ -7,7 +7,7 @@ import org.vibrant.base.rpc.json.JSONRPCSerializer
 import org.vibrant.core.node.RemoteNode
 import org.vibrant.base.rpc.json.JSONRPCResponse
 
-open class HTTPJsonRPCPeer(port: Int, private val rpc: JSONRPC): HTTPPeer(port, object: HTTPPeerConfig(endpoint = "/rpc"){}) {
+open class HTTPJsonRPCPeer(port: Int, private val rpc: JSONRPC, config: HTTPPeerConfig = object: HTTPPeerConfig(endpoint = "/rpc"){}): HTTPPeer(port, config) {
 
 
 

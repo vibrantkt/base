@@ -1,26 +1,20 @@
 package org.vibrant.base
 
 
-import kotlinx.coroutines.experimental.runBlocking
-import org.junit.Assert
-import org.junit.Assert.*
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotEquals
 import org.junit.Test
 import org.vibrant.base.http.HTTPJsonRPCPeer
-import org.vibrant.base.http.HTTPPeer
 import org.vibrant.base.http.HTTPPeerConfig
-import org.vibrant.base.http.Request
-import org.vibrant.base.rpc.JSONRPCMethod
-import org.vibrant.base.rpc.json.JSONRPC
 import org.vibrant.base.rpc.json.JSONRPCDefaultProtocol
 import org.vibrant.base.rpc.json.JSONRPCRequest
 import org.vibrant.base.rpc.json.SimpleJSONRPCError
 import org.vibrant.core.node.RemoteNode
 import java.net.Socket
-import kotlin.coroutines.experimental.suspendCoroutine
 
 class TestHTTPJsonRPCPeer {
 
-    val config = object: HTTPPeerConfig("rpc"){}
+    private val config = object: HTTPPeerConfig("rpc"){}
 
     private val rpc = JSONRPCDefaultProtocol()
 
@@ -31,7 +25,7 @@ class TestHTTPJsonRPCPeer {
             try {
                 Socket("localhost", port).close()
             }catch (e: Exception){
-                val peer = HTTPJsonRPCPeer(port, rpc)
+                val peer = HTTPJsonRPCPeer(port, rpc, config)
                 peer.start()
                 return peer
             }
