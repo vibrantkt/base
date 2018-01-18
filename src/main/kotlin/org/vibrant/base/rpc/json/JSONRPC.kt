@@ -5,13 +5,21 @@ package org.vibrant.base.rpc.json
 import mu.KotlinLogging
 import org.vibrant.base.rpc.RPC
 import org.vibrant.core.node.RemoteNode
-import org.vibrant.example.chat.base.jsonrpc.JSONRPCResponse
 
 abstract class JSONRPC: RPC() {
 
     protected val logger = KotlinLogging.logger{}
 
     fun invoke(request: JSONRPCRequest, remoteNode: RemoteNode): JSONRPCResponse<*> {
-        return this::class.java.getMethod(request.method, JSONRPCRequest::class.java, RemoteNode::class.java).invoke(this, request, remoteNode) as JSONRPCResponse<*>
+        return try {
+            val method = this::class.java.getMethod(request.method, JSONRPCRequest::class.java, RemoteNode::class.java)
+            method.invoke(this, request, remoteNode) as JSONRPCResponse<*>
+        }catch (e: NoSuchMethodException){
+            val error = SimpleJSONRPCError(SimpleJSONRPCError.ERROR_CODE.METHOD_NOT_FOUND, "No such method", "")
+            JSONRPCResponse(null, error, request.id)
+        }catch (e: IllegalArgumentException){
+            val error = SimpleJSONRPCError(SimpleJSONRPCError.ERROR_CODE.INVALID_PARAMETERS, "No such method", "")
+            JSONRPCResponse(null, error, request.id)
+        }
     }
 }

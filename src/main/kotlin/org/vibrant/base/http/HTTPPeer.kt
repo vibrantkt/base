@@ -16,6 +16,8 @@ abstract class HTTPPeer(val port: Int, val config: HTTPPeerConfig): AbstractPeer
     private val server = createServer()
 
 
+    internal var started = false
+
     private fun createServer(): Javalin {
         return Javalin
                 .create()
@@ -33,13 +35,15 @@ abstract class HTTPPeer(val port: Int, val config: HTTPPeerConfig): AbstractPeer
                 .port(port)
     }
 
-    abstract fun handleRequest(request: Request): ByteArray
+    protected abstract fun handleRequest(request: Request): ByteArray
 
     override fun start() {
+        this.started = true
         server.start()
     }
 
     override fun stop() {
+        this.started = false
         server.stop()
     }
 

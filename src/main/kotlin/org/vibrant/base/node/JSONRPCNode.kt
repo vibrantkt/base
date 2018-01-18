@@ -6,7 +6,7 @@ import org.vibrant.base.rpc.json.JSONRPCEntity
 import org.vibrant.base.rpc.json.JSONRPCRequest
 import org.vibrant.core.node.AbstractNode
 import org.vibrant.core.node.RemoteNode
-import org.vibrant.example.chat.base.jsonrpc.JSONRPCResponse
+import org.vibrant.base.rpc.json.JSONRPCResponse
 
 @Suppress("AddVarianceModifier")
 abstract class JSONRPCNode<T: HTTPJsonRPCPeer>: AbstractNode<JSONRPCEntity>(){
