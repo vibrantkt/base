@@ -42,7 +42,7 @@ abstract class BlockChain<B: BlockModel, out T: BlockChainModel> : ModelProducer
     protected abstract fun createGenesisBlock(): B
 
     protected fun notifyNewBlock(){
-        this.listeners.forEach{ it.nextBlock( this.latestBlock()) }
+        this.listeners.toList().forEach{ it.nextBlock( this.latestBlock()) }
     }
 
     interface NewBlockListener<in B: BlockModel>{

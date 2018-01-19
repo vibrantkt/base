@@ -14,8 +14,10 @@ abstract class InMemoryBlockChain<B: BlockModel, out T: BlockChainModel>: BlockC
     override fun latestBlock(): B = this.blocks.last()
 
     override fun addBlock(block: B): B {
-        this.blocks.add(block)
-        this.notifyNewBlock()
-        return this.latestBlock()
+        synchronized(this.blocks, {
+            this.blocks.add(block)
+            this.notifyNewBlock()
+            return this.latestBlock()
+        })
     }
 }
