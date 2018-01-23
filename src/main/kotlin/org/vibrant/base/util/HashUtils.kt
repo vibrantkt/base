@@ -89,18 +89,18 @@ object HashUtils {
         return result.toString()
     }
 
-//    fun hexToBytes(hex: String): ByteArray {
-//
-//        val result = ByteArray(hex.length / 2)
-//
-//        for (i in 0 until hex.length step 2) {
-//            val firstIndex = HEX_CHARS.indexOf(hex[i])
-//            val secondIndex = HEX_CHARS.indexOf(hex[i + 1])
-//
-//            val octet = firstIndex.shl(4).or(secondIndex)
-//            result[i.shr(1)] = octet.toByte()
-//        }
-//
-//        return result
-//    }
+    fun hexToBytes(hex: String): ByteArray {
+
+        val result = ByteArray(hex.length / 2)
+
+        for (i in 0 until hex.length step 2) {
+            val firstIndex = HEX_CHARS.indexOf(hex[i])
+            val secondIndex = HEX_CHARS.indexOf(hex[i + 1])
+
+            val octet = firstIndex.shl(4).or(secondIndex)
+            result[i.shr(1)] = octet.toByte()
+        }
+
+        return result
+    }
 }
