@@ -39,14 +39,16 @@ open class HTTPJsonRPCPeer(port: Int, private val rpc: JSONRPC, config: HTTPPeer
 
 
     fun broadcast(request: JSONRPCRequest, peers: List<RemoteNode> = this.peers): List<JSONRPCResponse<*>> {
-        return peers.map{
+        return peers.toList().map{
             this.request(it, request)
         }
     }
 
     open fun addUniqueRemoteNode(remoteNode: RemoteNode) {
-        if (this.peers.find { it.address == remoteNode.address && it.port == remoteNode.port } == null) {
-            this.peers.add(remoteNode)
+        if (this.peers.toList().find { it.address == remoteNode.address && it.port == remoteNode.port } == null) {
+            synchronized(this.peers){
+                this.peers.add(remoteNode)
+            }
         }
     }
 
