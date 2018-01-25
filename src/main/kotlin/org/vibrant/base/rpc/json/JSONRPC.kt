@@ -8,18 +8,31 @@ import org.vibrant.core.node.RemoteNode
 
 abstract class JSONRPC: RPC() {
 
-    protected val logger = KotlinLogging.logger{}
+    private val handlers = hashMapOf<String, (JSONRPCRequest, RemoteNode) -> JSONRPCResponse<*>>()
+    private val plugins = arrayListOf<JSONRPCPlugin>()
 
     fun invoke(request: JSONRPCRequest, remoteNode: RemoteNode): JSONRPCResponse<*> {
         return try {
-            val method = this::class.java.getMethod(request.method, JSONRPCRequest::class.java, RemoteNode::class.java)
-            method.invoke(this, request, remoteNode) as JSONRPCResponse<*>
-        }catch (e: NoSuchMethodException){
+            if(this.handlers.containsKey(request.method)){
+                this.handlers[request.method]!!.invoke(request, remoteNode)
+            }else{
+                this.plugins.first { it.handlers.containsKey(request.method) }.handlers[request.method]!!.invoke(request, remoteNode)
+            }
+        }catch (e: NullPointerException){
             val error = SimpleJSONRPCError(SimpleJSONRPCError.ERROR_CODE.METHOD_NOT_FOUND, "No such method", "")
             JSONRPCResponse(null, error, request.id)
         }catch (e: IllegalArgumentException){
             val error = SimpleJSONRPCError(SimpleJSONRPCError.ERROR_CODE.INVALID_PARAMETERS, "No such method", "")
             JSONRPCResponse(null, error, request.id)
         }
+    }
+
+
+    fun plug(plugin: JSONRPCPlugin){
+        this.plugins.add(plugin)
+    }
+
+    fun unplug(plugin: JSONRPCPlugin){
+        this.plugins.remove(plugin)
     }
 }
