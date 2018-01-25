@@ -8,8 +8,8 @@ import org.vibrant.core.node.RemoteNode
 
 abstract class JSONRPC: RPC() {
 
-    private val handlers = hashMapOf<String, (JSONRPCRequest, RemoteNode) -> JSONRPCResponse<*>>()
-    private val plugins = arrayListOf<JSONRPCPlugin>()
+    protected val handlers = hashMapOf<String, (JSONRPCRequest, RemoteNode) -> JSONRPCResponse<*>>()
+    protected val plugins = arrayListOf<JSONRPCPlugin>()
 
     fun invoke(request: JSONRPCRequest, remoteNode: RemoteNode): JSONRPCResponse<*> {
         return try {
@@ -18,7 +18,7 @@ abstract class JSONRPC: RPC() {
             }else{
                 this.plugins.first { it.handlers.containsKey(request.method) }.handlers[request.method]!!.invoke(request, remoteNode)
             }
-        }catch (e: NullPointerException){
+        }catch (e: NoSuchElementException){
             val error = SimpleJSONRPCError(SimpleJSONRPCError.ERROR_CODE.METHOD_NOT_FOUND, "No such method", "")
             JSONRPCResponse(null, error, request.id)
         }catch (e: IllegalArgumentException){
