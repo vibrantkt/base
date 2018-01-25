@@ -7,13 +7,12 @@ import org.vibrant.core.node.RemoteNode
 class JSONRPCDefaultProtocol: JSONRPC() {
 
 
-    init {
-        this.handlers["connect"] = { request, _ ->
-            JSONRPCResponse(
-                    result = true,
-                    error = null,
-                    id = request.id
-            )
-        }
+    @JSONRPCMethod
+    fun connect(request: JSONRPCRequest, remoteNode: RemoteNode): JSONRPCResponse<Boolean> {
+        return JSONRPCResponse(
+                result = true,
+                error = null,
+                id = request.id
+        )
     }
 }
