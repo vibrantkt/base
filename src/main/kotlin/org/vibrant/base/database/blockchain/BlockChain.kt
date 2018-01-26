@@ -5,7 +5,7 @@ import org.vibrant.base.database.blockchain.models.BlockModel
 import org.vibrant.core.ModelProducer
 
 
-abstract class BlockChain<B: BlockModel, out T: BlockChainModel> : ModelProducer<T>(){
+abstract class BlockChain<B: BlockModel, T: BlockChainModel> : ModelProducer<T>(){
 
     private val listeners = arrayListOf<NewBlockListener<B>>()
 
@@ -49,5 +49,5 @@ abstract class BlockChain<B: BlockModel, out T: BlockChainModel> : ModelProducer
         fun nextBlock(blockModel: B)
     }
 
-    abstract fun dump(copy: BlockChainModel)
+    abstract fun dump(copy: T)
 }

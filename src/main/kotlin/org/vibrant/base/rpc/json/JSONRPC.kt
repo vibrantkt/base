@@ -12,7 +12,7 @@ abstract class JSONRPC: RPC() {
         return try {
             val method = this::class.java.getMethod(request.method, JSONRPCRequest::class.java, RemoteNode::class.java)
             method.invoke(this, request, remoteNode) as JSONRPCResponse<*>
-        }catch (e: NoSuchMethodException){
+        }catch (e: Exception){
             val error = SimpleJSONRPCError(SimpleJSONRPCError.ERROR_CODE.METHOD_NOT_FOUND, "No such method", "")
             JSONRPCResponse(null, error, request.id)
         }catch (e: IllegalArgumentException){
