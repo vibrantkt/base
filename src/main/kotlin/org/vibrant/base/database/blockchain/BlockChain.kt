@@ -48,4 +48,6 @@ abstract class BlockChain<B: BlockModel, out T: BlockChainModel> : ModelProducer
     interface NewBlockListener<in B: BlockModel>{
         fun nextBlock(blockModel: B)
     }
+
+    abstract fun dump(copy: BlockChainModel)
 }
