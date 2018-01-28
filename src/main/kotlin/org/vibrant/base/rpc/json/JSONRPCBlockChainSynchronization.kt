@@ -29,8 +29,7 @@ interface JSONRPCBlockChainSynchronization<T: HTTPJsonRPCPeer,
     val blockSerializer: ConcreteModelSerializer<B>
 
 
-
-    private fun onLastBlock(lastBlock: B, remoteNode: RemoteNode): Boolean {
+    fun onLastBlock(lastBlock: B, remoteNode: RemoteNode): Boolean {
         val localLatestBlock = this.chain.latestBlock()
         if(localLatestBlock != lastBlock){
             when {
