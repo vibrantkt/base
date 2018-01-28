@@ -138,5 +138,19 @@ interface JSONRPCBlockChainSynchronization<T: HTTPJsonRPCPeer,
     }
 
 
+
+
+
+
+    @JSONRPCMethod
+    fun syncWithMe(request: JSONRPCRequest, remoteNode: RemoteNode): JSONRPCResponse<*>{
+        this.synchronize(remoteNode)
+        return JSONRPCResponse(
+                true,
+                null,
+                request.id
+        )
+    }
+
     fun handleDistinctTransaction(transaction: TX)
 }
