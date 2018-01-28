@@ -84,10 +84,8 @@ interface JSONRPCBlockChainSynchronization<T: HTTPJsonRPCPeer,
         if(!broadcastedBlocks.contains(block.hash)){
             broadcastedBlocks.add(block.hash)
             logger.info { "$result - true => block already attached and i won't share" }
-            if(!result) {
-                val some = this.node.peer.broadcast(request, this.node.peer.peers.filter { it.address != remoteNode.address || it.port != remoteNode.port })
-                logger.info { "Broad casted between connected nodes $some" }
-            }
+            val some = this.node.peer.broadcast(request, this.node.peer.peers.filter { it.address != remoteNode.address || it.port != remoteNode.port })
+            logger.info { "Broad casted between connected nodes $some" }
         }
         return JSONRPCResponse(result, null, request.id)
     }
